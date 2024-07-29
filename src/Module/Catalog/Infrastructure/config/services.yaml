@@ -1,0 +1,4 @@
+imports:
+    - { resource: 'doctrine.yaml' }
+
+services: ~
