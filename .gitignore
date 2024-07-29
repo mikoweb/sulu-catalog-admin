@@ -1,5 +1,6 @@
 .idea
 composer.phar
+/src/Command/DevCommand.php
 
 ###> symfony/framework-bundle ###
 /.env.local
