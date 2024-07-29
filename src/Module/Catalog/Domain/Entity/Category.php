@@ -35,7 +35,7 @@ class Category implements TimestampableInterface
     #[Gedmo\Slug(fields: ['name'])]
     private string $slug;
 
-    #[ORM\Column(name: 'message', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(name: 'description', type: Types::TEXT, nullable: true)]
     private ?string $description;
 
     #[Gedmo\TreeLeft]
