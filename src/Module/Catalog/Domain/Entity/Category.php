@@ -26,7 +26,7 @@ class Category implements TimestampableInterface
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     #[Assert\NotNull]
-    private ?string $id;
+    private string $id;
 
     #[ORM\Column(name: 'name', type: Types::STRING, nullable: false)]
     #[Assert\NotBlank]
@@ -84,7 +84,7 @@ class Category implements TimestampableInterface
         $this->children = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }

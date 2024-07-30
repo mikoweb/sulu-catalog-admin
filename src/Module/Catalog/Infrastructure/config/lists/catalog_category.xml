@@ -22,6 +22,10 @@
             <field-name>indentedName</field-name>
             <entity-name>App\Module\Catalog\Domain\Entity\Category</entity-name>
         </property>
+        <property name="updatedAt" width="shrink" visibility="always" type="datetime" translation="admin.common.property.updated_at" sortable="false">
+            <field-name>updatedAt</field-name>
+            <entity-name>App\Module\Catalog\Domain\Entity\Category</entity-name>
+        </property>
         <property name="createdAt" width="shrink" visibility="always" type="datetime" translation="admin.common.property.created_at" sortable="false">
             <field-name>createdAt</field-name>
             <entity-name>App\Module\Catalog\Domain\Entity\Category</entity-name>

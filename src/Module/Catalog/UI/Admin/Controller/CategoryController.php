@@ -2,7 +2,9 @@
 
 namespace App\Module\Catalog\UI\Admin\Controller;
 
+use App\Core\Infrastructure\Bus\CommandBusInterface;
 use App\Core\UI\Admin\Controller\AbstractAdminRestController;
+use App\Module\Catalog\Application\Interaction\Command\DeleteCategory\DeleteCategoryCommand;
 use App\Module\Catalog\Domain\Admin\Resource\CategoryResource;
 use App\Module\Catalog\Domain\Entity\Category;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
@@ -51,5 +53,12 @@ class CategoryController extends AbstractAdminRestController
     public function show(Category $category): Response
     {
         return $this->handleView($this->view($category));
+    }
+
+    public function delete(Category $category, CommandBusInterface $commandBus): Response
+    {
+        $commandBus->dispatch(new DeleteCategoryCommand($category->getId()));
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 }

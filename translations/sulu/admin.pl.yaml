@@ -2,6 +2,7 @@ admin:
     common:
         property:
             created_at: Utworzono
+            updated_at: Zmodyfikowano
             name: Nazwa
     catalog:
         menu_name: Katalog

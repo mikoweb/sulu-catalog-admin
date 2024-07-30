@@ -10,6 +10,7 @@ framework:
                     allow_no_handlers: false
                 middleware:
                     - validation
+                    - doctrine_transaction
                     #- router_context
             query_bus:
                 default_middleware:
@@ -17,6 +18,7 @@ framework:
                     allow_no_handlers: false
                 middleware:
                     - validation
+                    - doctrine_transaction
                     #- router_context
             event_bus:
                 default_middleware:
@@ -24,6 +26,7 @@ framework:
                     allow_no_handlers: true
                 middleware:
                     - validation
+                    - doctrine_transaction
                     #- router_context
             shared_query_bus:
                 default_middleware:
@@ -31,6 +34,7 @@ framework:
                     allow_no_handlers: false
                 middleware:
                     - validation
+                    - doctrine_transaction
                     #- router_context
             shared_event_bus:
                 default_middleware:
@@ -38,6 +42,7 @@ framework:
                     allow_no_handlers: true
                 middleware:
                     - validation
+                    - doctrine_transaction
                     #- router_context
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
