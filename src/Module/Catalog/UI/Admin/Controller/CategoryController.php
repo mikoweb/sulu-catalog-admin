@@ -5,6 +5,7 @@ namespace App\Module\Catalog\UI\Admin\Controller;
 use App\Core\Infrastructure\Bus\CommandBusInterface;
 use App\Core\UI\Admin\Controller\AbstractAdminRestController;
 use App\Module\Catalog\Application\Interaction\Command\DeleteCategory\DeleteCategoryCommand;
+use App\Module\Catalog\Application\Security\Voter\CategoryVoter;
 use App\Module\Catalog\Domain\Admin\Resource\CategoryResource;
 use App\Module\Catalog\Domain\Entity\Category;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
@@ -13,6 +14,7 @@ use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
 use Sulu\Component\Rest\RestHelperInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CategoryController extends AbstractAdminRestController
 {
@@ -55,6 +57,12 @@ class CategoryController extends AbstractAdminRestController
         return $this->handleView($this->view($category));
     }
 
+    #[IsGranted(
+        CategoryVoter::CATALOG_CATEGORY_SECURE_DELETE,
+        'category',
+        'Cannot delete because root',
+        Response::HTTP_FORBIDDEN
+    )]
     public function delete(Category $category, CommandBusInterface $commandBus): Response
     {
         $commandBus->dispatch(new DeleteCategoryCommand($category->getId()));
