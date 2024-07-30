@@ -1,0 +1,11 @@
+admin:
+    common:
+        property:
+            created_at: Utworzono
+            name: Nazwa
+    catalog_category:
+        menu_name: Kategorie
+        list_title: Kategorie
+        property:
+            lft: Pozycja
+            lvl: Poziom

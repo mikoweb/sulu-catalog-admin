@@ -1,0 +1,9 @@
+admin_api_catalog_category_index:
+    path: /
+    controller: App\Module\Catalog\UI\Admin\Controller\CategoryController::index
+    methods: [GET]
+
+admin_api_catalog_category_show:
+    path: /{id}
+    controller: App\Module\Catalog\UI\Admin\Controller\CategoryController::show
+    methods: [GET]

@@ -1,0 +1,6 @@
+sulu_admin:
+    resources:
+        catalog_category:
+            routes:
+                list: admin_api_catalog_category_index
+                detail: admin_api_catalog_category_show

@@ -15,4 +15,8 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class CategoryRepository extends NestedTreeRepository
 {
+    public function findConnected(): ?Category
+    {
+        return $this->findOneBy(['connected' => true, 'parent' => null]);
+    }
 }

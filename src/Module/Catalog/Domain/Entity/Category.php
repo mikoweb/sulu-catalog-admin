@@ -2,8 +2,8 @@
 
 namespace App\Module\Catalog\Domain\Entity;
 
-use App\Core\Application\Entity\TimestampableInterface;
-use App\Core\Application\Entity\TimestampableTrait;
+use App\Core\Infrastructure\Doctrine\Entity\Interfaces\TimestampableInterface;
+use App\Core\Infrastructure\Doctrine\Entity\Traits\TimestampableTrait;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +11,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use function Symfony\Component\String\u;
 
 #[Gedmo\Tree(type: 'nested')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
@@ -31,12 +33,20 @@ class Category implements TimestampableInterface
     #[Assert\Length(max: 255)]
     private string $name;
 
+    #[ORM\Column(name: 'indented_name', type: Types::STRING, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    private ?string $indentedName = null;
+
     #[ORM\Column(name: 'slug', type: Types::STRING, unique: true)]
     #[Gedmo\Slug(fields: ['name'])]
     private string $slug;
 
     #[ORM\Column(name: 'description', type: Types::TEXT, nullable: true)]
     private ?string $description;
+
+    #[ORM\Column(name: 'is_connected', type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
+    private bool $connected = false;
 
     #[Gedmo\TreeLeft]
     #[ORM\Column(name: 'lft', type: Types::INTEGER)]
@@ -69,7 +79,7 @@ class Category implements TimestampableInterface
 
     public function __construct(string $name, ?string $description = null)
     {
-        $this->name = $name;
+        $this->setName($name);
         $this->description = $description;
         $this->children = new ArrayCollection();
     }
@@ -91,6 +101,20 @@ class Category implements TimestampableInterface
         return $this;
     }
 
+    public function getIndentedName(): ?string
+    {
+        return $this->indentedName;
+    }
+
+    public function updateIndentedName(): void
+    {
+        $this->indentedName = u(u('-')->repeat($this->lvl * 4))
+            ->append(' ')
+            ->append($this->name)
+            ->trim()
+            ->toString();
+    }
+
     public function getSlug(): string
     {
         return $this->slug;
@@ -108,6 +132,16 @@ class Category implements TimestampableInterface
         return $this;
     }
 
+    public function isConnected(): bool
+    {
+        return $this->connected;
+    }
+
+    public function setConnected(bool $connected): void
+    {
+        $this->connected = $connected;
+    }
+
     public function getRoot(): ?self
     {
         return $this->root;
@@ -123,5 +157,13 @@ class Category implements TimestampableInterface
     public function getParent(): ?self
     {
         return $this->parent;
+    }
+
+    /**
+     * @return Category[]|Collection<int, Category>
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
     }
 }
