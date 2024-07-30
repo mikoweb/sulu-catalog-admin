@@ -18,8 +18,8 @@ class MenuAdmin extends Admin
 
         $navigationItemCollection->add($catalog);
 
-        $category = new NavigationItem(CategoryResource::ADMIN_MENU_NAME);
-        $category->setView(CategoryResource::ADMIN_VIEW_LIST_NAME);
+        $category = new NavigationItem(CategoryResource::MENU_NAME);
+        $category->setView(CategoryResource::VIEW_LIST_NAME);
         $catalog->addChild($category);
     }
 }

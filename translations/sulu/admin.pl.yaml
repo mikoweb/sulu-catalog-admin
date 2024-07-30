@@ -4,6 +4,7 @@ admin:
             created_at: Utworzono
             updated_at: Zmodyfikowano
             name: Nazwa
+            slug: Slug
     catalog:
         menu_name: Katalog
     catalog_category:
@@ -12,3 +13,4 @@ admin:
         property:
             lft: Pozycja
             lvl: Poziom
+            description: Opis
