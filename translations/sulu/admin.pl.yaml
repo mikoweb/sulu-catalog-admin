@@ -3,6 +3,8 @@ admin:
         property:
             created_at: Utworzono
             name: Nazwa
+    catalog:
+        menu_name: Katalog
     catalog_category:
         menu_name: Kategorie
         list_title: Kategorie

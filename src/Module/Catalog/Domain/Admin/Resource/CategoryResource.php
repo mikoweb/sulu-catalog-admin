@@ -8,8 +8,6 @@ final class CategoryResource
     public const string FORM_DETAILS_KEY = 'catalog_category_form_details';
 
     public const string ADMIN_MENU_NAME = 'admin.catalog_category.menu_name';
-    public const int ADMIN_MENU_POSITION = 31;
-    public const string ADMIN_MENU_ICON = 'su-folder';
 
     public const string ADMIN_VIEW_LIST_TITLE = 'admin.catalog_category.list_title';
     public const string ADMIN_VIEW_LIST_NAME = 'admin.catalog_category.list';

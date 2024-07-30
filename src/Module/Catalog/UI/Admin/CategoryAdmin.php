@@ -4,8 +4,6 @@ namespace App\Module\Catalog\UI\Admin;
 
 use App\Module\Catalog\Domain\Admin\Resource\CategoryResource;
 use Sulu\Bundle\AdminBundle\Admin\Admin;
-use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItem;
-use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItemCollection;
 use Sulu\Bundle\AdminBundle\Admin\View\ListViewBuilderInterface;
 use Sulu\Bundle\AdminBundle\Admin\View\ResourceTabViewBuilderInterface;
 use Sulu\Bundle\AdminBundle\Admin\View\ToolbarAction;
@@ -18,16 +16,6 @@ class CategoryAdmin extends Admin
     public function __construct(
         private readonly ViewBuilderFactoryInterface $viewBuilderFactory
     ) {
-    }
-
-    public function configureNavigationItems(NavigationItemCollection $navigationItemCollection): void
-    {
-        $eventNavigationItem = new NavigationItem(CategoryResource::ADMIN_MENU_NAME);
-        $eventNavigationItem->setView(CategoryResource::ADMIN_VIEW_LIST_NAME);
-        $eventNavigationItem->setIcon(CategoryResource::ADMIN_MENU_ICON);
-        $eventNavigationItem->setPosition(CategoryResource::ADMIN_MENU_POSITION);
-
-        $navigationItemCollection->add($eventNavigationItem);
     }
 
     public function configureViews(ViewCollection $viewCollection): void
