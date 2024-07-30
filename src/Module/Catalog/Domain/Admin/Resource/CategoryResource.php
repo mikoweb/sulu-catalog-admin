@@ -14,13 +14,13 @@ final class CategoryResource
 
     public const string EDIT_FORM_TEMPLATE = 'catalog_category_edit';
     public const string VIEW_EDIT_NAME = 'admin.catalog_category.edit';
-    public const string VIEW_EDIT_PATH = '/catalog/category/:id';
+    public const string VIEW_EDIT_PATH = '/catalog/categories/:id';
     public const string VIEW_EDIT_DETAILS_NAME = 'admin.catalog_category.edit.details';
     public const string VIEW_EDIT_DETAILS_PATH = '/details';
 
     public const string ADD_FORM_TEMPLATE = 'catalog_category_add';
     public const string VIEW_ADD_NAME = 'admin.catalog_category.add';
-    public const string VIEW_ADD_PATH = '/catalog/category-add';
+    public const string VIEW_ADD_PATH = '/catalog/categories/new/category';
     public const string VIEW_ADD_DETAILS_NAME = 'admin.catalog_category.add.details';
     public const string VIEW_ADD_DETAILS_PATH = '/details';
 }
