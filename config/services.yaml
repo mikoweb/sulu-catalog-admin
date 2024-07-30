@@ -27,3 +27,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Core\Infrastructure\Sulu\DoctrineListBuilderFactory:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@sulu_core.list_builder_filter_type_registry'
+            - '@event_dispatcher'
+            - '%sulu_security.permissions%'
+            - '@sulu_security.access_control_query_enhancer'
+    Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface: '@App\Core\Infrastructure\Sulu\DoctrineListBuilderFactory'

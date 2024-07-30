@@ -4,6 +4,8 @@ stof_doctrine_extensions:
     default_locale: '%default_locale%'
     translation_fallback: true
     persist_default_translation: true
+    class:
+        tree: App\Core\Infrastructure\Gedmo\Tree\UuidAwareTreeListener
     orm:
         default:
             sluggable: true

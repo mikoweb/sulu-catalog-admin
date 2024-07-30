@@ -6,6 +6,7 @@ use App\Core\Application\Exception\NotFoundException;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepository;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Uid\Uuid;
 
 readonly class CategoryPersistence
 {
@@ -18,7 +19,7 @@ readonly class CategoryPersistence
     /**
      * @throws NotFoundException
      */
-    public function delete(string $categoryId): void
+    public function delete(Uuid $categoryId): void
     {
         $category = $this->getRepository()->find($categoryId);
 

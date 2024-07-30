@@ -38,7 +38,7 @@ class CategoryController extends AbstractAdminRestController
         $listBuilder->where(
             // @phpstan-ignore-next-line
             $fieldDescriptors['root'],
-            $this->categoryRepositoryService->getRepository()->findConnected()?->getId() ?? ''
+            $this->categoryRepositoryService->getRepository()->findConnected()?->getId()->toBinary() ?? ''
         );
 
         // @phpstan-ignore-next-line
@@ -54,7 +54,7 @@ class CategoryController extends AbstractAdminRestController
 
     public function show(Category $category): Response
     {
-        return $this->handleView($this->view($category));
+        return $this->json($category, context: ['groups' => ['admin_read']]);
     }
 
     #[IsGranted(

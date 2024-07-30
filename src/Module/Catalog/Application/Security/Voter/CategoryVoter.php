@@ -39,6 +39,7 @@ class CategoryVoter extends Voter
 
     private function isNotConnectedRoot(Category $category): bool
     {
-        return $category->getId() !== $this->categoryRepositoryService->getRepository()->findConnected()?->getId();
+        return (string) $category->getId() !== (string) $this->categoryRepositoryService->getRepository()
+                ->findConnected()?->getId();
     }
 }
