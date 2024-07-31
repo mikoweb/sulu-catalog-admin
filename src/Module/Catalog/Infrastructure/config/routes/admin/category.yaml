@@ -1,14 +1,19 @@
 admin_api_catalog_category_index:
-    path: /
+    path: /category
     controller: App\Module\Catalog\UI\Admin\Controller\CategoryController::index
     methods: [GET]
 
 admin_api_catalog_category_show:
-    path: /{id}
+    path: /category/{id}
     controller: App\Module\Catalog\UI\Admin\Controller\CategoryController::show
     methods: [GET]
 
+admin_api_catalog_category_create:
+    path: /category
+    controller: App\Module\Catalog\UI\Admin\Controller\CategoryController::create
+    methods: [POST]
+
 admin_api_catalog_category_delete:
-    path: /{id}
+    path: /category/{id}
     controller: App\Module\Catalog\UI\Admin\Controller\CategoryController::delete
     methods: [DELETE]

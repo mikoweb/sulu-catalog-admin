@@ -8,11 +8,20 @@
             <meta>
                 <title>admin.common.property.name</title>
             </meta>
+            <params>
+                <param name="headline" value="true" />
+                <param name="soft_max_length" value="255" />
+                <param name="max_length" value="255" />
+            </params>
         </property>
         <property name="slug" type="text_line">
             <meta>
                 <title>admin.common.property.slug</title>
             </meta>
+            <params>
+                <param name="soft_max_length" value="255" />
+                <param name="max_length" value="255" />
+            </params>
         </property>
         <property name="description" type="text_area" mandatory="false">
             <meta>

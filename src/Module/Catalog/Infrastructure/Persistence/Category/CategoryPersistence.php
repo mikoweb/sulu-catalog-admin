@@ -3,8 +3,11 @@
 namespace App\Module\Catalog\Infrastructure\Persistence\Category;
 
 use App\Core\Application\Exception\NotFoundException;
+use App\Module\Catalog\Domain\Entity\Category;
+use App\Module\Catalog\Infrastructure\Persistence\Category\Converter\CategoryCreateDtoToEntityConverter;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepository;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
+use App\Module\Catalog\UI\Admin\Dto\CategoryCreateDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -13,7 +16,16 @@ readonly class CategoryPersistence
     public function __construct(
         private EntityManagerInterface $entityManager,
         private CategoryRepositoryService $categoryRepositoryService,
+        private CategoryCreateDtoToEntityConverter $createDtoToEntityConverter,
     ) {
+    }
+
+    public function create(CategoryCreateDto $dto): Category
+    {
+        $category = $this->createDtoToEntityConverter->convertToEntity($dto);
+        $this->entityManager->persist($category);
+
+        return $category;
     }
 
     /**

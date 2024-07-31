@@ -1,5 +1,5 @@
 admin_api_catalog_category:
     resource: admin/category.yaml
-    prefix: /category
+    prefix: /
     options:
         expose: true

@@ -4,16 +4,19 @@ namespace App\Module\Catalog\UI\Admin\Controller;
 
 use App\Core\Infrastructure\Bus\CommandBusInterface;
 use App\Core\UI\Admin\Controller\AbstractAdminRestController;
+use App\Module\Catalog\Application\Interaction\Command\CreateCategory\CreateCategoryCommand;
 use App\Module\Catalog\Application\Interaction\Command\DeleteCategory\DeleteCategoryCommand;
 use App\Module\Catalog\Application\Security\Voter\CategoryVoter;
 use App\Module\Catalog\Domain\Admin\Resource\CategoryResource;
 use App\Module\Catalog\Domain\Entity\Category;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
+use App\Module\Catalog\UI\Admin\Dto\CategoryCreateDto;
 use Sulu\Component\Rest\ListBuilder\CollectionRepresentation;
 use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface;
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
 use Sulu\Component\Rest\RestHelperInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CategoryController extends AbstractAdminRestController
@@ -55,6 +58,19 @@ class CategoryController extends AbstractAdminRestController
     public function show(Category $category): Response
     {
         return $this->json($category, context: ['groups' => ['admin_read']]);
+    }
+
+    public function create(
+        #[MapRequestPayload] CategoryCreateDto $dto,
+        CommandBusInterface $commandBus,
+        CategoryRepositoryService $categoryRepositoryService,
+    ): Response {
+        $id = $commandBus->dispatch(new CreateCategoryCommand($dto));
+
+        return $this->json(
+            $categoryRepositoryService->getRepository()->find($id),
+            context: ['groups' => ['admin_read']],
+        );
     }
 
     #[IsGranted(

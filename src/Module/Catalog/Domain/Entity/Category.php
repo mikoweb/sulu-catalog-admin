@@ -45,6 +45,7 @@ class Category implements TimestampableInterface
     private ?string $indentedName = null;
 
     #[ORM\Column(name: 'slug', type: Types::STRING, unique: true)]
+    #[Assert\Length(max: 255)]
     #[Gedmo\Slug(fields: ['name'])]
     #[Groups(['admin_read'])]
     private string $slug;
@@ -130,6 +131,13 @@ class Category implements TimestampableInterface
     public function getSlug(): string
     {
         return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function getDescription(): ?string
