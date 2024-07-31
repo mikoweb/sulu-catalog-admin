@@ -14,3 +14,5 @@ admin:
             lft: Pozycja
             lvl: Poziom
             description: Opis
+            parent: Kategoria nadrzędna
+            parent_no_selection: Nie wybrano kategorii

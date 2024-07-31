@@ -28,6 +28,11 @@
                 <title>admin.catalog_category.property.description</title>
             </meta>
         </property>
+        <property name="parent" type="single_catalog_category_selection" mandatory="true">
+            <meta>
+                <title>admin.catalog_category.property.parent</title>
+            </meta>
+        </property>
         <property name="lft" type="number" mandatory="true">
             <meta>
                 <title>admin.catalog_category.property.lft</title>

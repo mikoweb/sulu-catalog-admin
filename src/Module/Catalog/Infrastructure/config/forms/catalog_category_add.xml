@@ -23,6 +23,11 @@
                 <param name="max_length" value="255" />
             </params>
         </property>
+        <property name="parent" type="single_catalog_category_selection" mandatory="true">
+            <meta>
+                <title>admin.catalog_category.property.parent</title>
+            </meta>
+        </property>
         <property name="description" type="text_area" mandatory="false">
             <meta>
                 <title>admin.catalog_category.property.description</title>

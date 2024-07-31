@@ -81,6 +81,7 @@ class Category implements TimestampableInterface
     #[Gedmo\TreeParent]
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[Groups(['admin_read'])]
     private ?self $parent = null;
 
     /**
