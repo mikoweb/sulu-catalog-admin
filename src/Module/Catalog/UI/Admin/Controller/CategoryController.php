@@ -6,18 +6,21 @@ use App\Core\Infrastructure\Bus\CommandBusInterface;
 use App\Core\UI\Admin\Controller\AbstractAdminRestController;
 use App\Module\Catalog\Application\Interaction\Command\CreateCategory\CreateCategoryCommand;
 use App\Module\Catalog\Application\Interaction\Command\DeleteCategory\DeleteCategoryCommand;
+use App\Module\Catalog\Application\Interaction\Command\MoveCategory\MoveCategoryCommand;
 use App\Module\Catalog\Application\Interaction\Command\UpdateCategory\UpdateCategoryCommand;
 use App\Module\Catalog\Application\Security\Voter\CategoryVoter;
 use App\Module\Catalog\Domain\Admin\Resource\CategoryResource;
 use App\Module\Catalog\Domain\Entity\Category;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
 use App\Module\Catalog\UI\Admin\Dto\CategoryCreateDto;
+use App\Module\Catalog\UI\Admin\Dto\CategoryMoveDto;
 use App\Module\Catalog\UI\Admin\Dto\CategoryUpdateDto;
 use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface;
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
 use Sulu\Component\Rest\ListBuilder\PaginatedRepresentation;
 use Sulu\Component\Rest\RestHelperInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -101,6 +104,16 @@ class CategoryController extends AbstractAdminRestController
     public function delete(Category $category, CommandBusInterface $commandBus): Response
     {
         $commandBus->dispatch(new DeleteCategoryCommand($category->getId()));
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function move(
+        Category $category,
+        #[MapQueryString] CategoryMoveDto $dto,
+        CommandBusInterface $commandBus,
+    ): Response {
+        $commandBus->dispatch(new MoveCategoryCommand($category->getId(), $dto->destination));
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }

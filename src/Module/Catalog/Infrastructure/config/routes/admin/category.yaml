@@ -22,3 +22,8 @@ admin_api_catalog_category_delete:
     path: /category/{id}
     controller: App\Module\Catalog\UI\Admin\Controller\CategoryController::delete
     methods: [DELETE]
+
+admin_api_catalog_category_move:
+    path: /category/{id}
+    controller: App\Module\Catalog\UI\Admin\Controller\CategoryController::move
+    methods: [POST]

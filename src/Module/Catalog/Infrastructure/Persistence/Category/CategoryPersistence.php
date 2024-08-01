@@ -54,6 +54,27 @@ readonly class CategoryPersistence
         $this->entityManager->remove($category);
     }
 
+    /**
+     * @throws NotFoundException
+     */
+    public function move(Uuid $categoryId, Uuid $destinationId): void
+    {
+        $category = $this->getRepository()->find($categoryId);
+
+        if (is_null($category)) {
+            throw new NotFoundException(sprintf('Category with id `%s` does not exist.', $categoryId));
+        }
+
+        $destination = $this->getRepository()->find($destinationId);
+
+        if (is_null($destination)) {
+            throw new NotFoundException(sprintf('Category with id `%s` does not exist.', $destinationId));
+        }
+
+        $category->setParent($destination);
+        $this->entityManager->persist($category);
+    }
+
     private function getRepository(): CategoryRepository
     {
         return $this->categoryRepositoryService->getRepository();
