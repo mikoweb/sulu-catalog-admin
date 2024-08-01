@@ -6,14 +6,16 @@ use App\Core\Infrastructure\Bus\CommandBusInterface;
 use App\Core\UI\Admin\Controller\AbstractAdminRestController;
 use App\Module\Catalog\Application\Interaction\Command\CreateCategory\CreateCategoryCommand;
 use App\Module\Catalog\Application\Interaction\Command\DeleteCategory\DeleteCategoryCommand;
+use App\Module\Catalog\Application\Interaction\Command\UpdateCategory\UpdateCategoryCommand;
 use App\Module\Catalog\Application\Security\Voter\CategoryVoter;
 use App\Module\Catalog\Domain\Admin\Resource\CategoryResource;
 use App\Module\Catalog\Domain\Entity\Category;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
 use App\Module\Catalog\UI\Admin\Dto\CategoryCreateDto;
-use Sulu\Component\Rest\ListBuilder\CollectionRepresentation;
+use App\Module\Catalog\UI\Admin\Dto\CategoryUpdateDto;
 use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface;
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
+use Sulu\Component\Rest\ListBuilder\PaginatedRepresentation;
 use Sulu\Component\Rest\RestHelperInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -47,9 +49,12 @@ class CategoryController extends AbstractAdminRestController
         // @phpstan-ignore-next-line
         $this->restHelper->initializeListBuilder($listBuilder, $fieldDescriptors);
 
-        $listRepresentation = new CollectionRepresentation(
+        $listRepresentation = new PaginatedRepresentation(
             $listBuilder->execute() ?? [],
             CategoryResource::RESOURCE_KEY,
+            $listBuilder->getCurrentPage(),
+            $listBuilder->getLimit() ?? 10,
+            $listBuilder->count()
         );
 
         return $this->handleView($this->view($listRepresentation));
@@ -69,6 +74,20 @@ class CategoryController extends AbstractAdminRestController
 
         return $this->json(
             $categoryRepositoryService->getRepository()->find($id),
+            context: ['groups' => ['admin_read']],
+        );
+    }
+
+    public function update(
+        Category $category,
+        #[MapRequestPayload] CategoryUpdateDto $dto,
+        CommandBusInterface $commandBus,
+        CategoryRepositoryService $categoryRepositoryService,
+    ): Response {
+        $commandBus->dispatch(new UpdateCategoryCommand($category->getId(), $dto));
+
+        return $this->json(
+            $categoryRepositoryService->getRepository()->find($category->getId()),
             context: ['groups' => ['admin_read']],
         );
     }

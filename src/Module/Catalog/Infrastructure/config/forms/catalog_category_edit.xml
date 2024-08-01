@@ -28,7 +28,7 @@
                 <title>admin.catalog_category.property.description</title>
             </meta>
         </property>
-        <property name="parent" type="single_catalog_category_selection" mandatory="true">
+        <property name="parentId" type="single_catalog_category_selection" mandatory="true">
             <meta>
                 <title>admin.catalog_category.property.parent</title>
             </meta>
