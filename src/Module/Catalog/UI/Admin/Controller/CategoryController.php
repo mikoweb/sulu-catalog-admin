@@ -19,12 +19,13 @@ use Sulu\Component\Rest\ListBuilder\Doctrine\DoctrineListBuilderFactoryInterface
 use Sulu\Component\Rest\ListBuilder\Metadata\FieldDescriptorFactoryInterface;
 use Sulu\Component\Rest\ListBuilder\PaginatedRepresentation;
 use Sulu\Component\Rest\RestHelperInterface;
+use Sulu\Component\Security\SecuredControllerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class CategoryController extends AbstractAdminRestController
+class CategoryController extends AbstractAdminRestController implements SecuredControllerInterface
 {
     public function __construct(
         private readonly FieldDescriptorFactoryInterface $fieldDescriptorFactory,
@@ -32,6 +33,11 @@ class CategoryController extends AbstractAdminRestController
         private readonly RestHelperInterface $restHelper,
         private readonly CategoryRepositoryService $categoryRepositoryService,
     ) {
+    }
+
+    public function getSecurityContext(): string
+    {
+        return CategoryResource::SECURITY_CONTEXT;
     }
 
     public function index(): Response

@@ -5,6 +5,8 @@ namespace App\Module\Catalog\Domain\Admin\Resource;
 final class CategoryResource
 {
     public const string RESOURCE_KEY = 'catalog_category';
+    public const string SECURITY_GROUP = 'Catalog';
+    public const string SECURITY_CONTEXT = 'sulu.catalog.category';
 
     public const string MENU_NAME = 'admin.catalog_category.menu_name';
 
