@@ -3,3 +3,9 @@ admin_api_catalog_category:
     prefix: /
     options:
         expose: true
+
+admin_api_catalog_item:
+    resource: admin/item.yaml
+    prefix: /
+    options:
+        expose: true

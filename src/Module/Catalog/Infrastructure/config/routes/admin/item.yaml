@@ -1,0 +1,24 @@
+admin_api_catalog_item_index:
+    path: /item
+    controller: App\Module\Catalog\UI\Admin\Controller\ItemController::index
+    methods: [GET]
+
+admin_api_catalog_item_show:
+    path: /item/{id}
+    controller: App\Module\Catalog\UI\Admin\Controller\ItemController::show
+    methods: [GET]
+
+admin_api_catalog_item_create:
+    path: /item
+    controller: App\Module\Catalog\UI\Admin\Controller\ItemController::create
+    methods: [POST]
+
+admin_api_catalog_item_update:
+    path: /item/{id}
+    controller: App\Module\Catalog\UI\Admin\Controller\ItemController::update
+    methods: [PUT]
+
+admin_api_catalog_item_delete:
+    path: /item/{id}
+    controller: App\Module\Catalog\UI\Admin\Controller\ItemController::delete
+    methods: [DELETE]

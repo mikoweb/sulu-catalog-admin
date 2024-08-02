@@ -90,11 +90,18 @@ class Category implements TimestampableInterface
     #[ORM\OrderBy(['lft' => 'ASC'])]
     private Collection $children;
 
+    /**
+     * @var Item[]|Collection<int, Item>
+     */
+    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'categories')]
+    private Collection $items;
+
     public function __construct(string $name, ?string $description = null)
     {
         $this->setName($name);
         $this->description = $description;
         $this->children = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): Uuid
@@ -220,5 +227,13 @@ class Category implements TimestampableInterface
     public function getChildren(): Collection
     {
         return $this->children;
+    }
+
+    /**
+     * @return Item[]|Collection<int, Item>
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
     }
 }

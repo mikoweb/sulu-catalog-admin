@@ -4,6 +4,7 @@ namespace App\Module\Catalog\UI\Admin;
 
 use App\Module\Catalog\Domain\Admin\Resource\CatalogResource;
 use App\Module\Catalog\Domain\Admin\Resource\CategoryResource;
+use App\Module\Catalog\Domain\Admin\Resource\ItemResource;
 use Sulu\Bundle\AdminBundle\Admin\Admin;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItem;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItemCollection;
@@ -29,6 +30,12 @@ class MenuAdmin extends Admin
             $category = new NavigationItem(CategoryResource::MENU_NAME);
             $category->setView(CategoryResource::VIEW_LIST_NAME);
             $catalog->addChild($category);
+        }
+
+        if ($this->securityChecker->hasPermission(ItemResource::SECURITY_CONTEXT, PermissionTypes::VIEW)) {
+            $item = new NavigationItem(ItemResource::MENU_NAME);
+            $item->setView(ItemResource::VIEW_LIST_NAME);
+            $catalog->addChild($item);
         }
     }
 }

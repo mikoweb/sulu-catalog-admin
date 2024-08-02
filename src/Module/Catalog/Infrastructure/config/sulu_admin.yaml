@@ -4,6 +4,10 @@ sulu_admin:
             routes:
                 list: admin_api_catalog_category_index
                 detail: admin_api_catalog_category_show
+        catalog_item:
+            routes:
+                list: admin_api_catalog_item_index
+                detail: admin_api_catalog_item_show
     field_type_options:
         single_selection:
             single_catalog_category_selection:

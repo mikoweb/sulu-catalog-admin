@@ -16,3 +16,8 @@ admin:
             description: Opis
             parent: Kategoria nadrzędna
             parent_no_selection: Nie wybrano kategorii
+    catalog_item:
+        menu_name: Pozycje
+        list_title: Pozycje
+        property:
+            description: Opis

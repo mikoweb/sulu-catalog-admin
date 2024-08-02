@@ -31,7 +31,6 @@ class CategoryController extends AbstractAdminRestController implements SecuredC
         private readonly FieldDescriptorFactoryInterface $fieldDescriptorFactory,
         private readonly DoctrineListBuilderFactoryInterface $listBuilderFactory,
         private readonly RestHelperInterface $restHelper,
-        private readonly CategoryRepositoryService $categoryRepositoryService,
     ) {
     }
 
@@ -40,7 +39,7 @@ class CategoryController extends AbstractAdminRestController implements SecuredC
         return CategoryResource::SECURITY_CONTEXT;
     }
 
-    public function index(): Response
+    public function index(CategoryRepositoryService $categoryRepositoryService): Response
     {
         $fieldDescriptors = $this->fieldDescriptorFactory->getFieldDescriptors(CategoryResource::RESOURCE_KEY);
         $listBuilder = $this->listBuilderFactory
@@ -52,7 +51,7 @@ class CategoryController extends AbstractAdminRestController implements SecuredC
         $listBuilder->where(
             // @phpstan-ignore-next-line
             $fieldDescriptors['root'],
-            $this->categoryRepositoryService->getRepository()->findConnected()?->getId()->toBinary() ?? ''
+            $categoryRepositoryService->getRepository()->findConnected()?->getId()->toBinary() ?? ''
         );
 
         // @phpstan-ignore-next-line
