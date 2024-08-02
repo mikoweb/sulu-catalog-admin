@@ -5,6 +5,7 @@ namespace App\Module\Catalog\Infrastructure\Persistence\Item;
 use App\Core\Application\Exception\NotFoundException;
 use App\Module\Catalog\Domain\Entity\Item;
 use App\Module\Catalog\Infrastructure\Persistence\Item\Converter\DtoToEntityConverter;
+use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
 use App\Module\Catalog\Infrastructure\Repository\ItemRepository;
 use App\Module\Catalog\UI\Admin\Dto\ItemCreateDto;
 use App\Module\Catalog\UI\Admin\Dto\ItemUpdateDto;
@@ -16,6 +17,7 @@ readonly class ItemPersistence
     public function __construct(
         private EntityManagerInterface $entityManager,
         private ItemRepository $repository,
+        private CategoryRepositoryService $categoryRepositoryService,
         private DtoToEntityConverter $dtoToEntityConverter,
     ) {
     }
@@ -23,6 +25,7 @@ readonly class ItemPersistence
     public function create(ItemCreateDto $dto): Item
     {
         $item = $this->dtoToEntityConverter->convertCreateDto($dto);
+        $this->updateCategories($item, $dto->categoriesIds);
         $this->entityManager->persist($item);
 
         return $item;
@@ -34,6 +37,7 @@ readonly class ItemPersistence
     public function update(Uuid $itemId, ItemUpdateDto $dto): Item
     {
         $item = $this->dtoToEntityConverter->convertUpdateDto($itemId, $dto);
+        $this->updateCategories($item, $dto->categoriesIds);
         $this->entityManager->persist($item);
 
         return $item;
@@ -51,5 +55,23 @@ readonly class ItemPersistence
         }
 
         $this->entityManager->remove($item);
+    }
+
+    /**
+     * @param Uuid[] $categoriesIds
+     */
+    public function updateCategories(Item $item, array $categoriesIds): void
+    {
+        $item->clearCategories();
+
+        foreach ($categoriesIds as $categoryId) {
+            $category = $this->categoryRepositoryService->getRepository()->find($categoryId);
+
+            if (!is_null($category)) {
+                $item->addCategory($category);
+            }
+        }
+
+        $this->entityManager->persist($item);
     }
 }

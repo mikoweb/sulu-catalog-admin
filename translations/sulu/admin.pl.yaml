@@ -21,3 +21,4 @@ admin:
         list_title: Pozycje
         property:
             description: Opis
+            categories: Kategorie

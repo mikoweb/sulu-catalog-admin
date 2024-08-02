@@ -9,6 +9,23 @@ sulu_admin:
                 list: admin_api_catalog_item_index
                 detail: admin_api_catalog_item_show
     field_type_options:
+        selection:
+            catalog_category_selection:
+                default_type: 'list_overlay'
+                resource_key: 'catalog_category'
+                view:
+                    name: 'admin.catalog_category.list'
+                    result_to_view:
+                        id: 'id'
+                types:
+                    list_overlay:
+                        adapter: 'table'
+                        list_key: 'catalog_category'
+                        display_properties:
+                            - 'name'
+                        icon: 'su-folder'
+                        label: 'admin.catalog_category.list_title'
+                        overlay_title: 'admin.catalog_category.list_title'
         single_selection:
             single_catalog_category_selection:
                 default_type: 'list_overlay'

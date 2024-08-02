@@ -23,6 +23,11 @@
                 <param name="max_length" value="255" />
             </params>
         </property>
+        <property name="categoriesIds" type="catalog_category_selection" mandatory="true">
+            <meta>
+                <title>admin.catalog_item.property.categories</title>
+            </meta>
+        </property>
         <property name="description" type="text_editor" mandatory="false">
             <meta>
                 <title>admin.catalog_item.property.description</title>

@@ -7,6 +7,8 @@ use App\Core\Infrastructure\Doctrine\Entity\Traits\TimestampableTrait;
 use App\Module\Catalog\Infrastructure\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -54,6 +56,7 @@ class Item implements TimestampableInterface
         joinColumns: new ORM\JoinColumn(name: 'item_id', referencedColumnName: 'id'),
         inverseJoinColumns: new ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id'),
     )]
+    #[ORM\OrderBy(['name' => 'ASC'])]
     private Collection $categories;
 
     public function __construct(string $name)
@@ -108,7 +111,16 @@ class Item implements TimestampableInterface
      */
     public function getCategories(): Collection
     {
-        return $this->categories;
+        return $this->categories->matching(Criteria::create()->orderBy(['name' => Order::Ascending]));
+    }
+
+    /**
+     * @return Uuid[]
+     */
+    #[Groups(['admin_read'])]
+    public function getCategoriesIds(): array
+    {
+        return array_map(fn (Category $category) => $category->getId(), $this->getCategories()->toArray());
     }
 
     public function addCategory(Category $category): self
@@ -123,6 +135,13 @@ class Item implements TimestampableInterface
     public function removeCategory(Category $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function clearCategories(): self
+    {
+        $this->categories->clear();
 
         return $this;
     }

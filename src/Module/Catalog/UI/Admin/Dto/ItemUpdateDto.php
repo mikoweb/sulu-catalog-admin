@@ -2,6 +2,7 @@
 
 namespace App\Module\Catalog\UI\Admin\Dto;
 
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class ItemUpdateDto
@@ -15,6 +16,13 @@ readonly class ItemUpdateDto
         #[Assert\Length(max: 255)]
         public string $slug,
         public ?string $description,
+
+        /**
+         * @var Uuid[]
+         */
+        #[Assert\NotBlank]
+        #[Assert\All([new Assert\Uuid()])]
+        public array $categoriesIds,
     ) {
     }
 }
