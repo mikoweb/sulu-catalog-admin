@@ -33,6 +33,15 @@
                 <title>admin.catalog_category.property.parent</title>
             </meta>
         </property>
+        <property name="banner" type="single_media_selection">
+            <meta>
+                <title>admin.catalog_category.property.banner</title>
+            </meta>
+            <params>
+                <param name="types" value="image"/>
+                <param name="defaultDisplayOption" value="middle"/>
+            </params>
+        </property>
         <property name="lft" type="number" mandatory="true">
             <meta>
                 <title>admin.catalog_category.property.lft</title>

@@ -16,9 +16,11 @@ admin:
             description: Opis
             parent: Kategoria nadrzędna
             parent_no_selection: Nie wybrano kategorii
+            banner: Baner
     catalog_item:
         menu_name: Pozycje
         list_title: Pozycje
         property:
             description: Opis
             categories: Kategorie
+            image: Zdjęcie

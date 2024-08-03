@@ -10,8 +10,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Sulu\Bundle\MediaBundle\Entity\MediaInterface;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -95,6 +98,11 @@ class Category implements TimestampableInterface
      */
     #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'categories')]
     private Collection $items;
+
+    #[ORM\ManyToOne(targetEntity: MediaInterface::class)]
+    #[ORM\JoinColumn(name: 'banner_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[Ignore]
+    private ?MediaInterface $banner = null;
 
     public function __construct(string $name, ?string $description = null)
     {
@@ -235,5 +243,31 @@ class Category implements TimestampableInterface
     public function getItems(): Collection
     {
         return $this->items;
+    }
+
+    public function getBanner(): ?MediaInterface
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?MediaInterface $banner): self
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string, int>|null
+     */
+    #[Groups(['admin_read'])]
+    #[SerializedName('banner')]
+    public function getBannerAdmin(): ?array
+    {
+        if (is_null($this->banner)) {
+            return null;
+        }
+
+        return ['id' => $this->banner->getId()];
     }
 }

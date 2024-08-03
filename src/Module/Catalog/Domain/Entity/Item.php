@@ -12,8 +12,11 @@ use Doctrine\Common\Collections\Order;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Sulu\Bundle\MediaBundle\Entity\MediaInterface;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -58,6 +61,11 @@ class Item implements TimestampableInterface
     )]
     #[ORM\OrderBy(['name' => 'ASC'])]
     private Collection $categories;
+
+    #[ORM\ManyToOne(targetEntity: MediaInterface::class)]
+    #[ORM\JoinColumn(name: 'image_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[Ignore]
+    private ?MediaInterface $image = null;
 
     public function __construct(string $name)
     {
@@ -144,5 +152,31 @@ class Item implements TimestampableInterface
         $this->categories->clear();
 
         return $this;
+    }
+
+    public function getImage(): ?MediaInterface
+    {
+        return $this->image;
+    }
+
+    public function setImage(?MediaInterface $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string, int>|null
+     */
+    #[Groups(['admin_read'])]
+    #[SerializedName('image')]
+    public function getImageAdmin(): ?array
+    {
+        if (is_null($this->image)) {
+            return null;
+        }
+
+        return ['id' => $this->image->getId()];
     }
 }

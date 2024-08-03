@@ -8,19 +8,24 @@ use App\Module\Catalog\Infrastructure\Repository\CategoryRepository;
 use App\Module\Catalog\Infrastructure\Repository\CategoryRepositoryService;
 use App\Module\Catalog\UI\Admin\Dto\CategoryCreateDto;
 use App\Module\Catalog\UI\Admin\Dto\CategoryUpdateDto;
+use Sulu\Bundle\MediaBundle\Entity\MediaRepositoryInterface;
 use Symfony\Component\Uid\Uuid;
 
 readonly class DtoToEntityConverter
 {
     public function __construct(
         private CategoryRepositoryService $categoryRepositoryService,
+        private MediaRepositoryInterface $mediaRepository,
     ) {
     }
 
     public function convertCreateDto(CategoryCreateDto $dto): Category
     {
         $category = new Category($dto->name, $dto->description);
-        $category->setParent($this->getRepository()->find($dto->parentId));
+        $category
+            ->setParent($this->getRepository()->find($dto->parentId))
+            ->setBanner(is_null($dto->banner?->id) ? null : $this->mediaRepository->find($dto->banner->id))
+        ;
 
         if (!is_null($dto->slug)) {
             $category->setSlug($dto->slug);
@@ -45,6 +50,7 @@ readonly class DtoToEntityConverter
             ->setSlug($dto->slug)
             ->setDescription($dto->description)
             ->setParent($this->getRepository()->find($dto->parentId))
+            ->setBanner(is_null($dto->banner?->id) ? null : $this->mediaRepository->find($dto->banner->id))
             ->setLft($dto->lft)
         ;
 

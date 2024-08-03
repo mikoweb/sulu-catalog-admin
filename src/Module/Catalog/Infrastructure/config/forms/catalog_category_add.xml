@@ -28,6 +28,15 @@
                 <title>admin.catalog_category.property.parent</title>
             </meta>
         </property>
+        <property name="banner" type="single_media_selection">
+            <meta>
+                <title>admin.catalog_category.property.banner</title>
+            </meta>
+            <params>
+                <param name="types" value="image"/>
+                <param name="defaultDisplayOption" value="middle"/>
+            </params>
+        </property>
         <property name="description" type="text_area" mandatory="false">
             <meta>
                 <title>admin.catalog_category.property.description</title>
