@@ -30,6 +30,7 @@
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
         "friendsofsymfony/http-cache-bundle": "^3.0",
         "gedmo/doctrine-extensions": "^3.16",
         "handcraftedinthealps/zendsearch": "^2.1",
